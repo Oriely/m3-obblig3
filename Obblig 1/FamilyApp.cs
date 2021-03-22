@@ -33,63 +33,109 @@ vis <id> => viser en bestemt person med mor, far og barn (og id for disse, slik 
             }
         }
 
+        private string ListPeople()
+        {
+            var people = String.Empty;
+            
+            foreach (var person in _people)
+            {
+                people += person.getDescription() + "\n";
+            }
+            
+            return people;
+        }
+
+        private string childDescription(Person child)
+        {
+            return $"{child.FirstName} {child.LastName}(Id={child.Id}) Født: {child.BirthYear}\n";
+        }
+        
+        private string GetPerson(int personId)
+        {
+            string data = String.Empty;
+            var children = new List<Person>();
+            foreach (var person in _people)
+            {
+                if (person.Id == personId)
+                {
+                    data += person.getDescription();
+                    data += "\n";
+                    foreach (var child in _people)
+                    {
+                        if (child.Father != null)
+                        {
+                            if (child.Father.FirstName == person.FirstName)
+                            {
+                                children.Add(child);
+                                
+                                // if(hack == false) data += "  Barn:\n"; hack = true;
+                                // data += "    ";
+                                // if (child.LastName != null)
+                                // {
+                                //     data += $"{child.FirstName} {child.LastName} Født: {child.BirthYear}\n";
+                                // }
+                                // else
+                                // {
+                                //     data += $"{child.FirstName} (Id={child.Id}) Født: {child.BirthYear}\n";
+                                // }
+                            }
+                        }
+                        if(child.Mother != null) 
+                        { 
+                            if (child.Mother.FirstName == person.FirstName)
+                            {
+                                children.Add(child);
+                                
+                                // if(hack == false) data += "  Barn:\n"; hack = true;
+                                // data += "    ";
+                                // if (child.LastName != null)
+                                // {
+                                //     data += $"{child.FirstName} {child.LastName} Født: {child.BirthYear}\n";
+                                // }
+                                // else
+                                // {
+                                //     data += $"{child.FirstName} (Id={child.Id}) Født: {child.BirthYear}\n";
+                                // }
+                                
+                            }
+                        }
+                    }
+                        
+                }
+            }
+
+            if (children.Count != 0)
+            {
+                data += "  Barn:\n";
+                foreach (var child in children)
+                {
+                    data += "    ";
+                    data += childDescription(child);
+                }
+                
+            }
+
+            return data;
+        }
+        
         public string HandleCommand(string command)
         {
             var commands = command.Split(' ');
+            int personId = 0;
+
             
             switch (commands[0])
             {
                 case "help":
                     return WelcomeMessage;
                 case "liste":
-                    string content = String.Empty;
-                    
-                    for (int i = 0; i < _people.Count; i++)
-                    {
-                        content += _people[i].getDescription() + "\n";
-                    }
-
-                    return content;
+                    return ListPeople(); 
                 case "vis":
-                    string data = String.Empty;
-                    bool hack = false;
-                    for (int i = 0; i < _people.Count; i++)
-                    {
-                        if (_people[i].Id == Int32.Parse(commands[1]))
-                        {
-                            data += _people[i].getDescription();
-                            data += "\n";
-                            // bool hack = false;
-                            for (int j = 0; j < _people.Count; j++)
-                            {
-                                // if (_people[i].Father.FirstName == _people[j].FirstName + ' ' + _people[j].LastName)
-                                // {
-                                //     
-                                // }
-                                if (_people[j].Father != null)
-                                {
-                                   
-                                    if (_people[j].Father.FirstName == _people[i].FirstName)
-                                    {
-                                        if(hack == false) data += "  Barn:\n"; hack = true;
-                                        data += "    ";
-                                        if (_people[j].LastName != null)
-                                        {
-                                            data += $"{_people[j].FirstName} {_people[j].LastName} Født: {_people[j].BirthYear}\n";
-                                        }
-                                        else
-                                        {
-                                            data += $"{_people[j].FirstName} (Id={_people[j].Id}) Født: {_people[j].BirthYear}\n";
-                                        }
-                                    }
-                                }
-                            }
-                                
-                        }
-                        
-                    }
-
-                    return data;
+                    if (!String.IsNullOrEmpty(commands[1])) personId = Convert.ToInt32(commands[1]);
+                    return GetPerson(personId);
+                case "exit":
+                    Environment.Exit(0);
+                    return "exit";
                 default:
                     return "Dette er ikke en kommando";
             }

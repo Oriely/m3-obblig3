@@ -15,17 +15,7 @@ namespace Obblig_1
 
         public string getDescription()
         {
-            System.Text.StringBuilder builder = new System.Text.StringBuilder();    
-            
-            // if (FirstName != null &&
-            //     LastName != null &&
-            //     BirthYear != 0 &&
-            //     DeathYear != 0 &&
-            //     Father != null &&
-            //     Mother != null)
-            //     return
-            //         $"{FirstName} {LastName} (Id={Id}) Født: {BirthYear} Død: {DeathYear} Far: {Father.FirstName} (Id={Father.Id}) Mor: {Mother.FirstName} (Id={Mother.Id})";
-            //
+            System.Text.StringBuilder builder = new System.Text.StringBuilder();
             var description = String.Empty;
             if (FirstName != null) builder.Append($"{FirstName} ") ;
             if (LastName != null) builder.Append($"{LastName} ");
