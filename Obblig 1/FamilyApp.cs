@@ -47,7 +47,7 @@ vis <id> => viser en bestemt person med mor, far og barn (og id for disse, slik 
 
         private string childDescription(Person child)
         {
-            return $"{child.FirstName} {child.LastName}(Id={child.Id}) Født: {child.BirthYear}\n";
+            return $"{child.FirstName}{child.LastName} (Id={child.Id}) Født: {child.BirthYear}\n";
         }
         
         private string GetPerson(int personId)
@@ -85,7 +85,6 @@ vis <id> => viser en bestemt person med mor, far og barn (og id for disse, slik 
                             if (child.Mother.FirstName == person.FirstName)
                             {
                                 children.Add(child);
-                                
                                 // if(hack == false) data += "  Barn:\n"; hack = true;
                                 // data += "    ";
                                 // if (child.LastName != null)
@@ -96,7 +95,6 @@ vis <id> => viser en bestemt person med mor, far og barn (og id for disse, slik 
                                 // {
                                 //     data += $"{child.FirstName} (Id={child.Id}) Født: {child.BirthYear}\n";
                                 // }
-                                
                             }
                         }
                     }
